@@ -1,6 +1,6 @@
 ## Galaxy Swapper v2
 
-Imagine using an access control system in an open source project. ??
+Imagine using an access control system in an open source project. 🤡
 
 With this version:
 * You do not need a key anymore
