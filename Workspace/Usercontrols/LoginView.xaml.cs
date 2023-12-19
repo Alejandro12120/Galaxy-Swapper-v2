@@ -38,42 +38,36 @@ namespace Galaxy_Swapper_v2.Workspace.Usercontrols
         {
             CharacterAnimation();
 
-            Header.Text = Languages.Read(Languages.Type.View, "LoginView", "Header");
+            /*Header.Text = Languages.Read(Languages.Type.View, "LoginView", "Header");
             Activation.Text = Languages.Read(Languages.Type.View, "LoginView", "Activation");
             Activate.Content = Languages.Read(Languages.Type.View, "LoginView", "Activate");
             Tip_1.Text = Languages.Read(Languages.Type.View, "LoginView", "Tip_1");
-            Tip_2.Text = Languages.Read(Languages.Type.View, "LoginView", "Tip_2");
             Tip_3.Text = Languages.Read(Languages.Type.View, "LoginView", "Tip_3");
-            Tip_4.Text = Languages.Read(Languages.Type.View, "LoginView", "Tip_4");
+            Tip_4.Text = Languages.Read(Languages.Type.View, "LoginView", "Tip_4");*/
 
             Presence.Update("Login Page");
         }
 
         private void Password_Focus(object sender, RoutedEventArgs e)
         {
-            if (Password.Password == "000000-000000-000000")
+            if (Password.Text == "Bypassed by Alejandro")
             {
-                Password.Password = string.Empty;
+                Password.Text = string.Empty;
             }
         }
 
         private void Password_UnFocus(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(Password.Password))
+            if (string.IsNullOrEmpty(Password.Text))
             {
-                Password.Password = "000000-000000-000000";
+                Password.Text = "Bypassed by Alejandro";
             }
         }
 
         private void ActivateKey_Click(object sender, RoutedEventArgs e)
         {
-            Password.Password = Password.Password.Trim();
-            if (Password.Password == "000000-000000-000000" || string.IsNullOrEmpty(Password.Password))
-            {
-                Message.Display(Languages.Read(Languages.Type.Header, "Error"), Languages.Read(Languages.Type.Message, "LoginEmpty"), MessageBoxButton.OK);
-                return;
-            }
-            else if (Account.Activate(Password.Password))
+            Password.Text = Password.Text.Trim();
+            if (Account.Activate(Password.Text))
             {
                 Storyboard.Stop();
                 Memory.MainView.Main.Visibility = Visibility.Visible;

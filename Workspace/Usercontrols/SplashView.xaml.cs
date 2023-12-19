@@ -67,25 +67,26 @@ namespace Galaxy_Swapper_v2.Workspace.Usercontrols
             Memory.MainView.Main.Visibility = Visibility.Visible;
             Memory.MainView.Tab_Click(Memory.MainView.Dashboard, null!);
 
-            DateTime CurrentDate = DateTime.Now;
+            // Removed discord overlay
+            /*DateTime CurrentDate = DateTime.Now;
             if (Settings.Read(Settings.Type.Reminded).Value<string>() != CurrentDate.ToString("dd/MM/yyyy"))
             {
                 Log.Information("Reminded date is invalid displaying DiscordView");
                 Settings.Edit(Settings.Type.Reminded, CurrentDate.ToString("dd/MM/yyyy"));
                 Memory.MainView.SetOverlay(new DiscordView());
             }
-            else
-                Memory.MainView.RemoveOverlay();
+            else*/
+            Memory.MainView.RemoveOverlay();
         }
 
         private void LoadWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             var parse = Endpoint.Read(Endpoint.Type.Version);
 
-            Global.Discord = parse["Discord"].Value<string>();
+            /*Global.Discord = parse["Discord"].Value<string>();
             Global.Website = parse["Website"].Value<string>();
             Global.Download = parse["Download"].Value<string>();
-            Global.Key = parse["Key"].Value<string>();
+            Global.Key = parse["Key"].Value<string>();*/
 
             parse = parse[Global.Version];
             
@@ -99,14 +100,13 @@ namespace Galaxy_Swapper_v2.Workspace.Usercontrols
             {
                 if (parse["Update"]["Force"]["Enabled"].Value<bool>())
                 {
+                    Message.DisplaySTA("Actualización", "Los retrasados estos han sacado una update obligatoria, habla con Alejandro.");
                     Message.DisplaySTA(parse["Update"]["Force"]["Header"].Value<string>(), parse["Update"]["Force"]["Content"].Value<string>(), discord: true, exit: true, links: new[] { Global.Download });
                     Environment.Exit(0);
                 }
                 else if (Message.DisplaySTA(parse["Update"]["Header"].Value<string>(), parse["Update"]["Content"].Value<string>(), MessageBoxButton.YesNoCancel) == MessageBoxResult.Yes)
                 {
                     Global.Discord.UrlStart();
-                    Global.Download.UrlStart();
-                    Global.Website.UrlStart();
                     Environment.Exit(0);
                 }
             }

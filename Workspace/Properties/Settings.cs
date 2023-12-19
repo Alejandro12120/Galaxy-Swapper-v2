@@ -77,7 +77,7 @@ namespace Galaxy_Swapper_v2.Workspace.Properties
                 CharacterGender = true,
                 BackpackGender = true,
                 HideNsfw = false,
-                ShareStats = true,
+                ShareStats = false,
                 SortByStats = true,
                 HeroDefinition = true,
                 IsDev = false

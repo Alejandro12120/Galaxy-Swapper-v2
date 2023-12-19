@@ -114,48 +114,16 @@ namespace Galaxy_Swapper_v2.Workspace.Properties
                 return false;
             }
         }
-
-        private const string Domain = "https://galaxyswapperv2.com/Key/Valid.php";
+        
         public static bool Activate(string Activation)
         {
-            var stopwatch = new Stopwatch(); stopwatch.Start();
+            int days = 999;
+            if (!Create(days))
+                return false;
 
-            using (var client = new RestClient())
-            {
-                var request = new RestRequest(new Uri(Domain), Method.Get);
-                request.AddHeader("version", Global.Version);
-                request.AddHeader("apiversion", Global.Version);
-                request.AddHeader("activation", Activation);
-                request.AddHeader("auth", "galaxyswapperv2");
-
-                Log.Information($"Sending {request.Method} request to {Domain}");
-                var response = client.Execute(request);
-
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    Log.Fatal($"Failed to download response from endpoint! Expected: {HttpStatusCode.OK} Received: {response.StatusCode}");
-                    Message.DisplaySTA("Error", "Webclient caught a exception while downloading response from Endpoint.", solutions: new[] { "Disable Windows Defender Firewall", "Disable any anti-virus softwares", "Turn on a VPN" }, exit: true);
-                }
-
-                Log.Information($"Finished {request.Method} request in {stopwatch.GetElaspedAndStop().ToString("mm':'ss")} received {response.Content.Length}");
-
-                var parse = JsonConvert.DeserializeObject<JObject>(response.Content);
-                switch (parse["status"].Value<int>())
-                {
-                    case 200:
-                        if (!Create(parse["days"].Value<int>()))
-                            return false;
-
-                        Message.Display(Languages.Read(Languages.Type.Header, "Info"), string.Format(Languages.Read(Languages.Type.Message, "LoginSuccess"), parse["days"].Value<int>()));
-                        return true;
-                    case 409:
-                        Message.Display(Languages.Read(Languages.Type.Header, "Warning"), Languages.Read(Languages.Type.Message, "LoginInvalid"));
-                        return false;
-                    default:
-                        Message.Display(Languages.Read(Languages.Type.Header, "Error"), parse["message"].Value<string>(), solutions: new[] { "Disable Windows Defender Firewall", "Disable any anti-virus softwares", "Turn on a VPN" });
-                        return false;
-                }
-            }
+            // Message.Display(Languages.Read(Languages.Type.Header, "Info"), string.Format(Languages.Read(Languages.Type.Message, "LoginSuccess"), days));
+            Message.Display(Languages.Read(Languages.Type.Header, "Info"), "Cracked by Alejandro");
+            return true;
         }
     }
 }
